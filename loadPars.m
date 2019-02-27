@@ -14,6 +14,9 @@ params.time_to_conf = 2.5;
 
 params.keys = {'j','k'};
 
+params.conf_width_px = 200;
+params.conf_height_px = 200;
+
 [params.center(1), params.center(2)] = RectCenter(rect);
 params.rect = rect;
 params.yesTexture = Screen('MakeTexture', w, imread(fullfile('textures','yes.png')));
@@ -41,7 +44,7 @@ if nargin<3 %calibration, because no block_number has been provided
     params.stimulus = ...
         randi([1,min(numel(params.house_list),numel(params.face_list))],...
         params.Ntrials,1);
-    params.onsets = cumsum(4*ones(params.Ntrials,1));
+    params.onsets = cumsum(5.5*ones(params.Ntrials,1))-3;
     params.vis_peak = randi([round(params.display_duration/params.ifi/4),...
     round(3*params.display_duration/params.ifi/4)],params.Ntrials,1);
 

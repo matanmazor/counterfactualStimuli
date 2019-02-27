@@ -64,13 +64,15 @@ end
         vbl=Screen('Flip', w);%initial flip
 
         keysPressed = queryInput();
- end
- 
-% display stimulus
-
+  end
+  
 tini = GetSecs;
 % The onset of the stimulus is encoded in the log file as '0'.
 log.events = [log.events; 0 toc(global_clock)];
+
+% display stimulus
+
+
 
 
 %1. display first stimulus
@@ -119,6 +121,6 @@ while (GetSecs - tini)<params.display_duration+params.time_to_respond
         response = [GetSecs-tini 0];
     end
 end
-        
+   
 end
 

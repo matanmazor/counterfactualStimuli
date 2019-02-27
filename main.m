@@ -30,6 +30,7 @@ log.resp = nan(params.Ntrials,2);
 log.visibility = nan(params.Ntrials,1);
 log.correct = nan(params.Ntrials,1);
 log.events = [];
+log.confidence =  nan(params.Ntrials,1);
 
 vis_house_log = -1.5;
 vis_face_log = -1.5;
@@ -44,9 +45,10 @@ for num_trial = 1:params.Ntrials
   
     response = trialGradual(num_trial);
     
+    confidence = rateConf();
     log.resp(num_trial,:) = response;
     log.correct(num_trial) = log.resp(num_trial,2)==params.present(num_trial);
-    
+    log.confidence(num_trial) = confidence;
 end
 
 % close
@@ -59,3 +61,6 @@ Screen('CloseAll');
 load gong.mat;
 soundsc(y);
 
+%% save
+save(fullfile('data',strcat(params.name, '_block',params.block_numbmer,'.mat')),...
+    'log','params');
