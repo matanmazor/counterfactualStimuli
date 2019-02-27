@@ -25,7 +25,7 @@ x = smooth(x,6);
 %3. add noise
 x = x+normrnd(0,std_noise,size(x));
 
-contrast_schedule = x;
+contrast_schedule = x';
 
 end
 

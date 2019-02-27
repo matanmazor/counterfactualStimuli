@@ -76,6 +76,6 @@ for i_b = 1:Nb
     plan.stimulus(:,i_b) = randi([1,min(numel(params.house_list),...
         numel(params.face_list))], Nt,1);
     
-    plan.onsets(:,i_b) = cumsum(4*ones(params.Ntrials,1));
+    plan.onsets(:,i_b) = cumsum(params.event_duration*ones(params.Ntrials,1));
     
 end

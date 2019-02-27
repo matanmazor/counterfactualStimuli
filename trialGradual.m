@@ -10,7 +10,7 @@ if nargin<2
 end
 
 % Restrat Queue
-KbQueueStart;
+% KbQueueStart;
 
 response = [nan nan];
 
@@ -60,7 +60,7 @@ end
   while toc(global_clock)<params.onsets(num_trial)
         % Present a dot at the centre of the screen.
         Screen('DrawLines', w, [0 0 -10 10; -10 10 0 0],...
-            4, [0,0,0], params.center, 2);  
+            4, [0,0,0], params.center, 1);  
         vbl=Screen('Flip', w);%initial flip
 
         keysPressed = queryInput();
@@ -84,7 +84,7 @@ for i_frame = 1:length(schedule)
         Screen('DrawTextures',w,target{i_frame});
         
         Screen('DrawLines', w, [0 0 -10 10; -10 10 0 0],...
-            4, [0,0,0], params.center, 2);  
+            4, [0,0,0], params.center, 1);  
 
         vbl=Screen('Flip', w);
         keysPressed = queryInput();
@@ -111,7 +111,7 @@ while (GetSecs - tini)<params.display_duration+params.time_to_respond
         
     end
     Screen('DrawLines', w, [0 0 -10 10; -10 10 0 0],...
-        4, [0,0,0], params.center, 2);   
+        4, [0,0,0], params.center, 1);   
     
     vbl=Screen('Flip', w);
     keysPressed = queryInput();

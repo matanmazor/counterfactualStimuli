@@ -5,7 +5,9 @@ function keysPressed = queryInput()
 global log
 global global_clock
 
-[ ~, keysPressed]= KbQueueCheck;
+% [ ~, keysPressed]= KbQueueCheck;
+[ ~, ~,keysPressed]= KbCheck;
+
 for i=1:length(find(keysPressed))
       key_vec = find(keysPressed,i);
     log.events = [log.events; key_vec(end) toc(global_clock)];

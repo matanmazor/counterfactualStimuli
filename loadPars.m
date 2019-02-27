@@ -7,11 +7,11 @@ global w
 
  %% general visual and timing parameters
  
- params.display_duration = 1;
+params.display_duration = 1;
 params.ifi = 1/30;
 params.time_to_respond = 1.5;
 params.time_to_conf = 2.5;
-
+params.event_duration = 5; %including stimulus presentation, decision and confidence rating
 params.keys = {'j','k'};
 
 params.conf_width_px = 200;
@@ -44,7 +44,7 @@ if nargin<3 %calibration, because no block_number has been provided
     params.stimulus = ...
         randi([1,min(numel(params.house_list),numel(params.face_list))],...
         params.Ntrials,1);
-    params.onsets = cumsum(5.5*ones(params.Ntrials,1))-3;
+    params.onsets = cumsum(params.event_duration*ones(params.Ntrials,1));
     params.vis_peak = randi([round(params.display_duration/params.ifi/4),...
     round(3*params.display_duration/params.ifi/4)],params.Ntrials,1);
 
@@ -75,7 +75,8 @@ else %experimental run, because a block_number has been provided
     params.visibility = [linspace(-1,params.visibility(1),10)'; params.visibility];
     params.house = [binornd(1,0.5,10,1); params.house];
     params.stimulus = [randi(max(params.stimulus),10,1); params.stimulus];
-    params.onsets = [cumsum(4*ones(10,1)); 40+params.onsets];
+    params.onsets = [cumsum(params.event_duration*ones(10,1)); ...
+        10*params.event_duration+params.onsets];
     params.vis_peak = [randi([round(params.display_duration/params.ifi/4),...
         round(3*params.display_duration/params.ifi/4)],10,1);params.vis_peak];
     

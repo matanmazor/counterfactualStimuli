@@ -10,7 +10,7 @@ global global_clock
 global w %psychtoolbox window
 
 % Restrat Queue
-KbQueueStart;
+% KbQueueStart;
 
 response = [nan nan];
 
@@ -89,7 +89,7 @@ for i_frame = 1:length(schedule)
         Screen('DrawTextures',w,target1{i_frame});
         
         Screen('DrawLines', w, [0 0 -10 10; -10 10 0 0],...
-            4, [0,0,0], params.center, 2);  
+            4, [0,0,0], params.center, 1);  
 
         vbl=Screen('Flip', w);
         keysPressed = queryInput();
@@ -99,7 +99,7 @@ end
 while GetSecs-tini<params.display_duration+0.2
     
      Screen('DrawLines', w, [0 0 -10 10; -10 10 0 0],...
-            4, [0,0,0], params.center, 2);  
+            4, [0,0,0], params.center, 1);  
 
         vbl=Screen('Flip', w);
         keysPressed = queryInput();
@@ -115,7 +115,7 @@ for i_frame = 1:length(schedule)
         Screen('DrawTextures',w,target2{i_frame});
         
         Screen('DrawLines', w, [0 0 -10 10; -10 10 0 0],...
-            4, [0,0,0], params.center, 2);  
+            4, [0,0,0], params.center, 1);  
 
         vbl=Screen('Flip', w);
         keysPressed = queryInput();
@@ -140,7 +140,7 @@ while (GetSecs - tini)<2*params.display_duration+0.2+params.time_to_respond
         
     end
     Screen('DrawLines', w, [0 0 -10 10; -10 10 0 0],...
-        4, [0,0,0], params.center, 2);   
+        4, [0,0,0], params.center, 1);   
     
     vbl=Screen('Flip', w);
     keysPressed = queryInput();
