@@ -62,5 +62,5 @@ load gong.mat;
 soundsc(y);
 
 %% save
-save(fullfile('data',strcat(params.name, '_block',params.block_numbmer,'.mat')),...
+save(fullfile('data',strcat(params.name, '_block',num2str(params.block_number),'.mat')),...
     'log','params');

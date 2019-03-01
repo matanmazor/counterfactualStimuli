@@ -12,7 +12,7 @@ params.ifi = 1/30;
 params.time_to_respond = 1.5;
 params.time_to_conf = 2.5;
 params.event_duration = 5; %including stimulus presentation, decision and confidence rating
-params.keys = {'j','k'};
+params.keys = {'a','s'};
 
 params.conf_width_px = 200;
 params.conf_height_px = 200;
@@ -61,7 +61,7 @@ else %experimental run, because a block_number has been provided
        params.plan = makePlan(params);
     else
        old_params = load(fullfile('data',strcat(params.name, '_block1.mat')));
-       params.plan = old_params.plan;
+       params.plan = old_params.params.plan;
     end
   
     params.present = params.plan.present(:,block_number);

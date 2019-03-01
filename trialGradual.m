@@ -5,6 +5,7 @@ global params
 global global_clock
 global w %psychtoolbox window
 
+
 if nargin<2
     visibility = params.visibility(num_trial);
 end
@@ -39,6 +40,7 @@ end
 target = {};
 bg = {};
 
+fprintf('entered trialGradual %f\n',toc(global_clock))
 for i_frame = 1:length(schedule)
     
     target{i_frame} = Screen('MakeTexture',w, ...
@@ -47,6 +49,7 @@ for i_frame = 1:length(schedule)
         rand([round(max(target_size)*1.2),round(max(target_size)*1.2),3])*255);
 
 end
+fprintf('started trialGradual %f\n',toc(global_clock))
 
  while toc(global_clock)<params.onsets(num_trial)-0.5
         % Present a dot at the centre of the screen.
@@ -56,6 +59,7 @@ end
 
         keysPressed = queryInput();
  end
+fprintf('trial onset-0.5 %f\n',toc(global_clock))
 
   while toc(global_clock)<params.onsets(num_trial)
         % Present a dot at the centre of the screen.
@@ -65,7 +69,8 @@ end
 
         keysPressed = queryInput();
   end
-  
+
+fprintf('trial onset %f\n',toc(global_clock))
 tini = GetSecs;
 % The onset of the stimulus is encoded in the log file as '0'.
 log.events = [log.events; 0 toc(global_clock)];
@@ -122,5 +127,11 @@ while (GetSecs - tini)<params.display_duration+params.time_to_respond
     end
 end
    
+%close all textures to free memory
+for i_frame = 1:length(schedule)
+    Screen('Close', target{i_frame}); 
+    Screen('Close', bg{i_frame}); 
+end
+
 end
 

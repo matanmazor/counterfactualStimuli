@@ -5,8 +5,8 @@ function [rating]= rateConf()
 global params
 global w
 
-increase_key =KbName('q');
-decrease_key = KbName('a');
+increase_key =KbName('UpArrow');
+decrease_key = KbName('DownArrow');
 
 timer = tic();
 

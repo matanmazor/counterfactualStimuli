@@ -20,7 +20,7 @@ fuzzy_borders = exp(-((x/xsd).^2)-((y/ysd).^2));
 fuzzy_borders = repmat(fuzzy_borders,1,1,3);
 
 take_image_value = binornd(1,p_mask.*fuzzy_borders)>0;
-% take_image_value = binornd(1,p_mask)>0;
+take_image_value = binornd(1,p_mask)>0;
 stimulus(take_image_value) = image(take_image_value);
 
 
