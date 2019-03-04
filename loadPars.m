@@ -11,7 +11,7 @@ params.display_duration = 1;
 params.ifi = 1/30;
 params.time_to_respond = 1.5;
 params.time_to_conf = 2.5;
-params.event_duration = 5; %including stimulus presentation, decision and confidence rating
+params.event_duration = 7; %including stimulus presentation, decision and confidence rating
 params.keys = {'a','s'};
 
 params.conf_width_px = 200;
