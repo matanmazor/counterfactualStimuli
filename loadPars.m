@@ -60,10 +60,10 @@ if nargin<3 %calibration, because no block_number has been provided
 else %experimental run, because a block_number has been provided
     
     params.block_number = block_number;
-    calibration = load(fullfile('data',strcat(params.name, '_calibration.mat')));
-    params.vis_face = calibration.vis_face;
-    params.vis_house = calibration.vis_house;
-    params.Ntrials = 150;
+%     calibration = load(fullfile('data',strcat(params.name, '_calibration.mat')));
+    params.vis_face = -2.2;%calibration.vis_face;
+    params.vis_house = -2;%calibration.vis_house;
+    params.Ntrials = 120;
     params.Nblocks = 4;
     
     if block_number == 1 %first block;
@@ -79,14 +79,5 @@ else %experimental run, because a block_number has been provided
     params.stimulus = params.plan.stimulus(:,block_number);
     params.onsets = params.plan.onsets(:,block_number);
     params.vis_peak = params.plan.vis_peak(:,block_number);
-    
-    params.present = [binornd(1,0.5,10,1); params.present];
-    params.visibility = [linspace(-1,params.visibility(1),10)'; params.visibility];
-    params.house = [binornd(1,0.5,10,1); params.house];
-    params.stimulus = [randi(max(params.stimulus),10,1); params.stimulus];
-    params.onsets = [cumsum(params.event_duration*ones(10,1)); ...
-        10*params.event_duration+params.onsets];
-    params.vis_peak = [randi([round(params.display_duration/params.ifi/4),...
-        round(3*params.display_duration/params.ifi/4)],10,1);params.vis_peak];
     
 end
