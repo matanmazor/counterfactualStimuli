@@ -44,7 +44,8 @@ fprintf('entered trialGradual %f\n',toc(global_clock))
 for i_frame = 1:length(schedule)
     
     target{i_frame} = Screen('MakeTexture',w, ...
-        makeStimulus(rescale(imread(stimulus_path))*255,schedule(i_frame)*exp(visibility)));
+        makeStimulus(rescale(imread(stimulus_path))*255,...
+        schedule(i_frame)*exp(visibility),params.fuzzy_borders));
     bg{i_frame} = Screen('MakeTexture',w, ...
         rand([round(max(target_size)*1.2),round(max(target_size)*1.2),3])*255);
 

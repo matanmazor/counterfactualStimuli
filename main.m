@@ -20,7 +20,7 @@ block_number = str2double(savestr{2});
 %% 2. set preferences and open screen
 
 % change to w = setWindow(1) for debugging mode.
-[w,rect] = setWindow(1); %open psychtoolbox. 
+[w,rect] = setWindow(0); %open psychtoolbox. 
 params = loadPars(rect, name, block_number);
         
 %% 3. initialize log

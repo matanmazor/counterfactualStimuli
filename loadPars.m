@@ -16,6 +16,15 @@ params.keys = {'a','s'};
 
 params.conf_width_px = 200;
 params.conf_height_px = 200;
+params.image_size_px = [300,300];
+
+%create fuzzy borders
+ims = params.image_size_px;
+[x,y] = meshgrid((1:ims(2))-ims(2)/2,(1:ims(1))-ims(1)/2);
+xsd = ims(1)/2.0;
+ysd = ims(2)/2.0;
+fuzzy_borders = exp(-((x/xsd).^2)-((y/ysd).^2));
+params.fuzzy_borders = repmat(fuzzy_borders,[1,1,3]);
 
 [params.center(1), params.center(2)] = RectCenter(rect);
 params.rect = rect;
