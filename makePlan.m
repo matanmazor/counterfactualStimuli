@@ -10,9 +10,9 @@ end
 
 %should the random or the structured blocks take place first?
 plan.random_first = 0; 
-if binornd(1,0.5)
-    plan.random_first = 1;
-end
+% if binornd(1,0.5)
+%     plan.random_first = 1;
+% end
 
 %start with creating the structured blocks
 
@@ -40,13 +40,18 @@ for i_b = 1:Nb/2
     structured.house(:,i_b) = [first_trials_house;...
         structured.house(randperm((Nt-8)),i_b)];
    
-    structured.visibility(:,i_b) = createContrastSchedule(Nt,0.05)+...
-        params.vis_face+structured.house(:,i_b)*(params.vis_house-params.vis_face);
+%     structured.visibility(:,i_b) = createContrastSchedule(Nt,0.05)+...
+%         params.vis_face+structured.house(:,i_b)*(params.vis_house-params.vis_face);
     
     structured.vis_peak(:,i_b) = randi([round(params.display_duration/params.ifi/4),...
         round(3*params.display_duration/params.ifi/4)],Nt,1);
 
 end
+
+%% LINEAR VISIBILITY DRIFT !!! 
+structured.visibility = -1.65+0.35*[linspace(-1,1,60)', -linspace(-1,1,60)';...
+    -linspace(-1,1,60)', linspace(-1,1,60)'];
+
 
 %now for the random ones:
 for i_b = 1:Nb/2

@@ -1,7 +1,10 @@
 function [ stimulus ] = makeStimulus( image, p, mask )
 
-
-image = Scale(mean(image,3))*255;
+bw_image = mean(image,3);
+[~,I] = sort(bw_image(:));
+bw_image(I) = linspace(0,255,numel(I));
+image = bw_image;
+%Scale(mean(image,3))*255;
 
 stimulus = 255*rand(size(image));
 
