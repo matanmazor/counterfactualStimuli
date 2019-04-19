@@ -57,12 +57,28 @@ if nargin<3 %calibration, because no block_number has been provided
     params.vis_peak = randi([round(params.display_duration/params.ifi/4),...
     round(3*params.display_duration/params.ifi/4)],params.Ntrials,1);
 
+elseif strfind(lower(name),'practice')
+    
+    params.Ntrials = 8;
+    params.block_number = block_number;
+    params.present = [1 1 1 0 0 1 0 0];
+    %this version will only show faces during the practice block
+    params.house = [0 0 0 0 0 0 0 0];
+    %previous version showed both faces and houses:
+    %params.house = [0 0 1 0 0 1 0 0];
+    params.stimulus = 1:8;
+    params.onsets = cumsum(params.event_duration*ones(params.Ntrials,1));
+    params.vis_peak = randi([round(params.display_duration/params.ifi/4),...
+            round(3*params.display_duration/params.ifi/4)],params.Ntrials,1);
+    params.visibility = -0.8*ones(8,1);
+
+    
 else %experimental run, because a block_number has been provided
     
     params.block_number = block_number;
 %     calibration = load(fullfile('data',strcat(params.name, '_calibration.mat')));
-    params.vis_face = -2.2;%calibration.vis_face;
-    params.vis_house = -2;%calibration.vis_house;
+    params.vis_face = -1.5; %calibration.vis_face;
+    params.vis_house = -1.3; %calibration.vis_house;
     params.Ntrials = 120;
     params.Nblocks = 4;
     

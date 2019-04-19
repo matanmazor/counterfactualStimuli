@@ -38,7 +38,7 @@ if params.present(num_trial)==0 %noise trial
 end
 
 target = {};
-bg = {};
+% bg = {};
 
 fprintf('entered trialGradual %f\n',toc(global_clock))
 for i_frame = 1:length(schedule)
@@ -46,13 +46,14 @@ for i_frame = 1:length(schedule)
     target{i_frame} = Screen('MakeTexture',w, ...
         makeStimulus(rescale(imread(stimulus_path))*255,...
         schedule(i_frame)*exp(visibility),params.fuzzy_borders));
-    bg{i_frame} = Screen('MakeTexture',w, ...
-        rand([round(max(target_size)*1.2),round(max(target_size)*1.2),3])*255);
+%     bg{i_frame} = Screen('MakeTexture',w, ...
+%         rand([round(max(target_size)*1.2),round(max(target_size)*1.2),3])*255);
 
 end
 fprintf('started trialGradual %f\n',toc(global_clock))
 
  while toc(global_clock)<params.onsets(num_trial)-0.5
+     
         % Present a dot at the centre of the screen.
         Screen('DrawDots', w, [0 0]', ...
             10, [255 255 255], params.center,1);
@@ -86,7 +87,7 @@ for i_frame = 1:length(schedule)
     
     while GetSecs-tini<params.ifi*i_frame
         
-        Screen('DrawTextures',w,bg{i_frame});
+%         Screen('DrawTextures',w,bg{i_frame});
         Screen('DrawTextures',w,target{i_frame});
         
         Screen('DrawLines', w, [0 0 -10 10; -10 10 0 0],...
@@ -131,7 +132,7 @@ end
 %close all textures to free memory
 for i_frame = 1:length(schedule)
     Screen('Close', target{i_frame}); 
-    Screen('Close', bg{i_frame}); 
+%     Screen('Close', bg{i_frame}); 
 end
 
 end
