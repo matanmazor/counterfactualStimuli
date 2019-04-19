@@ -10,9 +10,9 @@ end
 
 %should the random or the structured blocks take place first?
 plan.random_first = 0; 
-% if binornd(1,0.5)
-%     plan.random_first = 1;
-% end
+if binornd(1,0.5)
+    plan.random_first = 1;
+end
 
 %start with creating the structured blocks
 
