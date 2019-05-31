@@ -19,9 +19,16 @@ block_number = str2double(savestr{2});
 
 %% 2. set preferences and open screen
 
-% change to w = setWindow(1) for debugging mode.
-[w,rect] = setWindow(0); %open psychtoolbox. 
+% change to w = setWindow(0) for other mode.
+[w,rect] = setWindow(1); %open psychtoolbox. 
 params = loadPars(rect, name, block_number);
+
+% Check if file already exists and throw error if so, except if 'practice'
+if exist(...
+        fullfile('data',strcat(params.name, '_block',num2str(params.block_number),'.mat')),...
+        'file') & ~strcmp(params.name, 'practice')
+    error('File Already Exists')
+end
         
 %% 3. initialize log
 
@@ -35,7 +42,7 @@ log.confidence =  nan(params.Ntrials,1);
 vis_house_log = -1.5;
 vis_face_log = -1.5;
 correct_house = [];
-correct_face = [];
+correct_house = [];
 
 %% 4. run calibration
 
@@ -62,5 +69,5 @@ load gong.mat;
 soundsc(y);
 
 %% save
-save(fullfile('data',strcat(params.name, '_block',params.block_numbmer,'.mat')),...
+save(fullfile('data',strcat(params.name, '_block',num2str(params.block_number),'.mat')),...
     'log','params');
