@@ -20,8 +20,8 @@ Screen('BlendFunction', w, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 %The fMRI button box does not work well with KbCheck. I use KbQueue
 %instead here, to get precise timings and be sensitive to all presses.
-KbQueueCreate;
-KbQueueStart;
+% KbQueueCreate;
+% KbQueueStart;
 
 
 end

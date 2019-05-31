@@ -10,7 +10,7 @@ global global_clock
 global w %psychtoolbox window
 
 % Restrat Queue
-KbQueueStart;
+% KbQueueStart;
 
 response = [nan nan];
 
@@ -42,7 +42,7 @@ end
 
 target1 = {};
 target2 = {};
-bg = {};
+% bg = {};
 
 for i_frame = 1:length(schedule)
     
@@ -67,7 +67,7 @@ end
   while toc(global_clock)<params.onsets(num_trial)
         % Present a dot at the centre of the screen.
         Screen('DrawLines', w, [0 0 -10 10; -10 10 0 0],...
-            4, [0,0,0], params.center, 2);  
+            4, [0,0,0], params.center, 1);  
         vbl=Screen('Flip', w);%initial flip
 
         keysPressed = queryInput();
@@ -81,25 +81,30 @@ log.events = [log.events; 0 toc(global_clock)];
 
 
 %1. display first stimulus
+a = [];
 for i_frame = 1:length(schedule)
     
     while GetSecs-tini<params.ifi*i_frame
         
         Screen('DrawTextures',w,bg{i_frame});
+
         Screen('DrawTextures',w,target1{i_frame});
-        
+
         Screen('DrawLines', w, [0 0 -10 10; -10 10 0 0],...
-            4, [0,0,0], params.center, 2);  
+            4, [0,0,0], params.center, 1);  
 
         vbl=Screen('Flip', w);
+        
         keysPressed = queryInput();
     end
+    a(end+1) = GetSecs-tini;
+
 end
 
 while GetSecs-tini<params.display_duration+0.2
     
      Screen('DrawLines', w, [0 0 -10 10; -10 10 0 0],...
-            4, [0,0,0], params.center, 2);  
+            4, [0,0,0], params.center, 1);  
 
         vbl=Screen('Flip', w);
         keysPressed = queryInput();
@@ -107,19 +112,21 @@ while GetSecs-tini<params.display_duration+0.2
 end
 
 %2. display second stimulus
+b = [];
 for i_frame = 1:length(schedule)
     
-    while GetSecs-tini<params.display_duration + params.ifi*i_frame
+    while GetSecs-tini<0.2+params.display_duration + params.ifi*i_frame
         
         Screen('DrawTextures',w,bg{i_frame});
         Screen('DrawTextures',w,target2{i_frame});
-        
+
         Screen('DrawLines', w, [0 0 -10 10; -10 10 0 0],...
-            4, [0,0,0], params.center, 2);  
+            4, [0,0,0], params.center, 1);  
 
         vbl=Screen('Flip', w);
         keysPressed = queryInput();
     end
+    b(end+1)=GetSecs-tini;
 end
 
 %3. wait for response
@@ -140,7 +147,7 @@ while (GetSecs - tini)<2*params.display_duration+0.2+params.time_to_respond
         
     end
     Screen('DrawLines', w, [0 0 -10 10; -10 10 0 0],...
-        4, [0,0,0], params.center, 2);   
+        4, [0,0,0], params.center, 1);   
     
     vbl=Screen('Flip', w);
     keysPressed = queryInput();
@@ -149,6 +156,13 @@ while (GetSecs - tini)<2*params.display_duration+0.2+params.time_to_respond
     elseif keysPressed(KbName(params.keys{2}))
         response = [GetSecs-tini 0];
     end
+end
+
+%close all textures to free memory
+for i_frame = 1:length(schedule)
+    Screen('Close', target1{i_frame}); 
+    Screen('Close', target2{i_frame}); 
+    Screen('Close', bg{i_frame}); 
 end
         
 end

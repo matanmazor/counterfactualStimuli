@@ -5,14 +5,14 @@ function [rating]= rateConf()
 global params
 global w
 
-increase_key =KbName('q');
-decrease_key = KbName('a');
+increase_key =KbName('UpArrow');
+decrease_key = KbName('DownArrow');
 
 timer = tic();
 
 % initial confidence rating is determined randomly
 rating = randperm(6,1);
-
+new_rating = rating;
 while toc(timer)<params.time_to_conf
   
     % draw scale
@@ -33,10 +33,11 @@ while toc(timer)<params.time_to_conf
     keysPressed = queryInput();
     
     if keysPressed(decrease_key)
-        rating=max(1,rating-1);
+        new_rating=max(1,rating-1);
     elseif keysPressed(increase_key)
-        rating=min(6,rating+1);
-        
+        new_rating=min(6,rating+1);
+    elseif ~keysPressed %update rating only when key is released
+        rating = new_rating;
     end
 end
 
