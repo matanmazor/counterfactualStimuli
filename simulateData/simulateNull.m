@@ -1,69 +1,50 @@
 function simulated_data = simulateNull()
 
-    %counterfactual stimuli experiment. 
+addpath('..');
+params.Nblocks = 4;
+params.Ntrials = 120;
+params.ifi = 1/30;
+params.vis_face = -1.5; %calibration.vis_face;
+params.vis_house = -1.3; %calibration.vis_house;
+params.event_duration = 1;
+params.display_duration = 1;
+params.house_list = cell(1000,1);
+params.face_list = cell(1000,1);
+plan = makePlan(params);
 
-    clear all
-    version = '2019-02-20';
+%% 1. initialize log
 
-    global log
-    global params
-    global global_clock
-    global w %psychtoolbox window
+%% internal parameters
+mean_noise = -4;
+perceptual_std = 2;
+criteria = -6:2:2;
 
-    %% 1. ask for name and block number
-    prompt = {'Name: ','Block number:'};
-    dlg_title = 'Filename'; % title of the input dialog box
-    num_lines = 1; % number of input lines
-    default = {'42KaFr','0'}; % default filename
-    savestr = inputdlg(prompt,dlg_title,num_lines,default);
-    name = savestr{1};
-    block_number = str2double(savestr{2});
+% Initialize log with NaNs where possible.
+log.resp = nan(params.Nblocks*params.Ntrials,2);
+log.visibility = nan(params.Nblocks*params.Ntrials,1);
+log.correct = nan(params.Nblocks*params.Ntrials,1);
+log.confidence =  nan(params.Nblocks*params.Ntrials,1);
+log.internal_variable =  nan(params.Nblocks*params.Ntrials,1);
 
-    %% 2. set preferences and open screen
-
-    % change to w = setWindow(1) for debugging mode.
-    [w,rect] = setWindow(0); %open psychtoolbox. 
-    params = loadPars(rect, name, block_number);
-
-    %% 3. initialize log
-
-    % Initialize log with NaNs where possible.
-    log.resp = nan(params.Ntrials,2);
-    log.visibility = nan(params.Ntrials,1);
-    log.correct = nan(params.Ntrials,1);
-    log.events = [];
-    log.confidence =  nan(params.Ntrials,1);
-
-    vis_house_log = -1.5;
-    vis_face_log = -1.5;
-    correct_house = [];
-    correct_face = [];
-
-    %% 4. run calibration
-
-    global_clock = tic();
-
-    for num_trial = 1:params.Ntrials
-
-        response = trialGradual(num_trial);
-
-        confidence = rateConf();
-        log.resp(num_trial,:) = response;
-        log.correct(num_trial) = log.resp(num_trial,2)==params.present(num_trial);
-        log.confidence(num_trial) = confidence;
+for trial = 1:params.Nblocks*params.Ntrials
+    if plan.present(trial)==0
+        cur_visibility = mean_noise;
+    else
+        cur_visibility = plan.visibility(trial);
     end
+    decision_variable = normrnd(cur_visibility, perceptual_std);
+    decision = discretize(decision_variable, [-inf criteria inf]);
+    if decision>3
+        log.resp(trial)=1;
+        log.confidence(trial) = decision-3;
+    else
+        log.resp(trial)=0;
+        log.confidence(trial) = 4-decision;
+    end
+    log.visibility(trial) = cur_visibility;
+    log.internal_variable(trial) = decision_variable;
+    log.correct(trial) = log.resp(trial)==plan.present(trial);
+end
 
-    % close
-    Priority(0);
-    ShowCursor
-    Screen('CloseAll');
-
-    % Make a gong sound so that I can hear from outside the testing room that
-    % the behavioural session is over :-)
-    load gong.mat;
-    soundsc(y);
-
-    %% save
-    save(fullfile('data',strcat(params.name, '_block',num2str(params.block_number),'.mat')),...
-        'log','params');
+simulated_data = log;
 end
