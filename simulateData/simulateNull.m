@@ -1,6 +1,8 @@
 function simulated_data = simulateNull()
 
-addpath('..');
+addpath('..'); % needed in order to run makePlan
+
+% some parameters that are needed for the makePlan function to run:
 params.Nblocks = 4;
 params.Ntrials = 120;
 params.ifi = 1/30;
@@ -13,16 +15,6 @@ params.face_list = cell(1000,1);
 plan = makePlan(params);
 
 %% 1. initialize log
-
-%% internal parameters
-mean_noise = -4; %remains constant
-mean_signal = nanmean(plan.visibility(plan.present==1));
-perceptual_std = 2;
-criteria = -4:2:4;
-scalar = 1;
-shifter = mean([mean_noise, mean_signal]);
-
-% Initialize log with NaNs where possible.
 log.resp = nan(params.Nblocks*params.Ntrials,2);
 log.visibility = nan(params.Nblocks*params.Ntrials,1);
 log.correct = nan(params.Nblocks*params.Ntrials,1);
@@ -30,21 +22,36 @@ log.confidence =  nan(params.Nblocks*params.Ntrials,1);
 log.internal_variable =  nan(params.Nblocks*params.Ntrials,1);
 log.expected_visibility = nan(params.Nblocks*params.Ntrials,1);
 
-% Run null model for each trial
+%% internal parameters
+% these parameters reflect internal components of the simulated agent
+mean_noise = -4; %remains constant
+mean_signal = nanmean(plan.visibility(plan.present==1));
+perceptual_std = 2; 
+criteria = -4:2:4; % The 3rd (decision) criterion is set to 0.
+scalar = 1; % A scalar by which the criteria are scaled. 
+shifter = mean([mean_noise, mean_signal]); % A constant addition to the criterion set.
+
+
+%% Run null model for each trial
 for trial = 1:params.Nblocks*params.Ntrials
     
-    cur_expected_visibility = log.expected_visibility(trial);
+    %this reflects the agent's belief about the mean of the distribution of
+    %visbility levels. 
+    cur_expected_visibility = log.expected_visibility(trial); 
     
+    % in case this is a noise trial, the input to the perceptual system
+    % is the mean of the noise distribution.    
     if plan.present(trial)==0
-        cur_visibility = mean_noise;
+        cur_visibility = mean_noise; 
+    %otherwise, it is the visibility level on this trial.    
     else
         cur_visibility = plan.visibility(trial);
     end
     
-    %model 1 assumes a rigid shift in criteria as a function of expVis
+    %%model 1 assumes a rigid shift in criteria as a function of expVis
     %shifter = mean([mean_noise, cur_expected_visibility]); 
 
-    %model 2 assumes a scaling of the criteria as a function of expVis
+    %%model 2 assumes a scaling of the criteria as a function of expVis
 %     if isnan(cur_expected_visibility)
 %         scalar = 1;
 %     else
@@ -53,7 +60,12 @@ for trial = 1:params.Nblocks*params.Ntrials
     
     new_criteria = scalar*criteria + shifter;
     
+    %the decision variable is centered around the objective input to the
+    %perceptual system, and varies as a function of the perceptual
+    %variance.
     decision_variable = normrnd(cur_visibility, perceptual_std);
+    %the decision is made based on the location of the decision variable
+    %with respect to the set of criteria.
     decision = discretize(decision_variable, [-inf new_criteria inf]);
     
     if decision>3 %if yes response
@@ -63,12 +75,15 @@ for trial = 1:params.Nblocks*params.Ntrials
     else %if no response
         log.resp(trial)=0;
         log.confidence(trial) = 4-decision;
+        % THAT'S NOT TRUE. IF THE AGENT SAID 'NO', NEXT E(VIS)= CURRENT
+        % E(VIS)
         next_expected_visibility = mean_noise;
     end
     log.visibility(trial) = cur_visibility;
     log.internal_variable(trial) = decision_variable;
     log.correct(trial) = log.resp(trial)==plan.present(trial);
     
+    %need documentation
     if trial ~= 120 && trial ~= 240 && trial ~= 360 && trial ~= 480
         log.expected_visibility(trial+1) = next_expected_visibility;
     else
