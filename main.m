@@ -31,6 +31,8 @@ log.visibility = nan(params.Ntrials,1);
 log.correct = nan(params.Ntrials,1);
 log.events = [];
 log.confidence =  nan(params.Ntrials,1);
+log.visibilityByFrame = nan(params.Ntrials,...
+    round(params.display_duration/params.ifi));
 
 vis_house_log = -1.5;
 vis_face_log = -1.5;

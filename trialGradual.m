@@ -37,6 +37,8 @@ if params.present(num_trial)==0 %noise trial
     schedule = zeros(size(schedule));
 end
 
+log.visibilityByFrame(num_trial,:) = schedule;
+
 target = {};
 % bg = {};
 
