@@ -48,9 +48,13 @@ for trial = 1:params.Nblocks*params.Ntrials
         cur_visibility = plan.visibility(trial);
     end
     
-    %%model 1 assumes a rigid shift in criteria as a function of expVis
-    %shifter = mean([mean_noise, cur_expected_visibility]); 
-
+%     %model 1 assumes a rigid shift in criteria as a function of expVis
+%     if isnan(cur_expected_visibility)
+%          shifter = 0;
+%     else
+%         shifter = mean([mean_noise, cur_expected_visibility]); 
+%     end
+    
     %%model 2 assumes a scaling of the criteria as a function of expVis
 %     if isnan(cur_expected_visibility)
 %         scalar = 1;
