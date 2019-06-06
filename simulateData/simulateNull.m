@@ -36,10 +36,10 @@ shifter = mean([mean_noise, mean_signal]); % A constant addition to the criterio
 for trial = 1:params.Nblocks*params.Ntrials
     
     %this reflects the agent's belief about the mean of the distribution of
-    %visbility levels. 
+    %visbility levels.
     cur_expected_visibility = log.expected_visibility(trial); 
     
-    % in case this is a noise trial, the input to the perceptual system
+    % in the case that this is a noise trial, the input to the perceptual system
     % is the mean of the noise distribution.    
     if plan.present(trial)==0
         cur_visibility = mean_noise; 
@@ -75,16 +75,19 @@ for trial = 1:params.Nblocks*params.Ntrials
     else %if no response
         log.resp(trial)=0;
         log.confidence(trial) = 4-decision;
-        % THAT'S NOT TRUE. IF THE AGENT SAID 'NO', NEXT E(VIS)= CURRENT
-        % E(VIS)
-        next_expected_visibility = mean_noise;
+        next_expected_visibility = cur_expected_visibility;
     end
     log.visibility(trial) = cur_visibility;
     log.internal_variable(trial) = decision_variable;
     log.correct(trial) = log.resp(trial)==plan.present(trial);
     
-    %need documentation
-    if trial ~= 120 && trial ~= 240 && trial ~= 360 && trial ~= 480
+    %multiples of 120 (120, 240, 360, 480) correspond to the final trial
+    %of a certain block, so expected value can be updated for every trial
+    %except for the final one of each block (i.e. a multiple of 120).
+    %since log.expected_visibility has been initialised with Nan values,
+    %the loop can just continue for these final trials, such that the EVis
+    %of the first trial within the next block will be NaN (no expectation)
+    if mod(trial,120) ~= 0 % trial ~= 120 && trial ~= 240 && trial ~= 360 && trial ~= 480
         log.expected_visibility(trial+1) = next_expected_visibility;
     else
         continue %log.expected_visibility(trial+1) = NaN;
