@@ -1,4 +1,4 @@
-function simulated_data = simulateNull()
+function [simulated_params, simulated_data] = simulateNull()
 
 addpath('..'); % needed in order to run makePlan
 
@@ -13,6 +13,7 @@ params.display_duration = 1;
 params.house_list = cell(1000,1);
 params.face_list = cell(1000,1);
 plan = makePlan(params);
+params.present = plan.present;
 
 %% 1. initialize log
 log.resp = nan(params.Nblocks*params.Ntrials,2);
@@ -36,7 +37,7 @@ shifter = mean([mean_noise, mean_signal]); % A constant addition to the criterio
 for trial = 1:params.Nblocks*params.Ntrials
     
     %this reflects the agent's belief about the mean of the distribution of
-    %visbility levels.
+    %visibility levels.
     cur_expected_visibility = log.expected_visibility(trial); 
     
     % in the case that this is a noise trial, the input to the perceptual system
@@ -55,13 +56,13 @@ for trial = 1:params.Nblocks*params.Ntrials
 %         shifter = mean([mean_noise, cur_expected_visibility]); 
 %     end
     
-    %%model 2 assumes a scaling of the criteria as a function of expVis
+%     %model 2 assumes a scaling of the criteria as a function of expVis
 %     if isnan(cur_expected_visibility)
 %         scalar = 1;
 %     else
 %         scalar = abs(cur_expected_visibility/6);
 %     end
-    
+%     
     new_criteria = scalar*criteria + shifter;
     
     %the decision variable is centered around the objective input to the
@@ -98,6 +99,6 @@ for trial = 1:params.Nblocks*params.Ntrials
     end
 
 end
-
+simulated_params = params;
 simulated_data = log;
 end

@@ -149,5 +149,4 @@ for i_s = 1:length(subj_list)
             data_struct(subj)=subject_data;
             
         end
-    end
 end
