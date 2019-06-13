@@ -1,5 +1,9 @@
 function [simulated_params, simulated_data] = simulateModel(modelType)
 
+if nargin<1
+    modelType = 'Null';
+end
+
 addpath('..'); % needed in order to run makePlan
 
 % some parameters that are needed for the makePlan function to run:
@@ -50,7 +54,7 @@ for trial = 1:params.Nblocks*params.Ntrials
     end
     
     if strcmp(modelType,'Null')
-        continue
+        NaN;
     elseif strcmp(modelType,'Shifter')
         %model 1 assumes a rigid shift in criteria as a function of expVis
         if isnan(cur_expected_visibility)
