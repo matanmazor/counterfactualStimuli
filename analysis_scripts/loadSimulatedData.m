@@ -1,11 +1,9 @@
-function data_struct = loadSimulatedData(modelType) 
+function data_struct = loadSimulatedData(modelType, numberOfDataPoints) 
 %call function with argument for the modelType ('Null','Shifter','Scalar')
 
 if nargin<1
     modelType = 'Null';
 end
-
-numberOfDataPoints = 100;
 
 data_struct = containers.Map;
 

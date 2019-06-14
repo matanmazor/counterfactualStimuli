@@ -67,7 +67,7 @@ for trial = 1:params.Nblocks*params.Ntrials
         if isnan(cur_expected_visibility)
             scalar = 1;
         else
-            scalar = abs(cur_expected_visibility/6);
+            scalar = exp(cur_expected_visibility/6);
         end
     else
         error('Please select a valid argument for modelType (i.e. Null, Shifter or Scalar)')
