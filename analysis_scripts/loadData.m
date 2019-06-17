@@ -6,6 +6,7 @@ data_struct = containers.Map;
 % load subject list
 subj_list = {};
 files = dir(fullfile('..','data'));
+% files = dir(fullfile('..','data','001RiHe*')); OPTIONAL ARGUMENT
 
 for i_f = 1:numel(files)
     if regexp(files(i_f).name,'block4')

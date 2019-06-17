@@ -63,6 +63,13 @@ Screen('CloseAll');
 load gong.mat;
 soundsc(y);
 
+log.bonus = ((log.correct(~isnan(log.confidence))-0.5)'...
+        *log.confidence(~isnan(log.confidence)))/300;
+numbers = {'first','second','third','fourth'};
+sprintf('the bonus for the %s block is %0.02f',numbers{params.block_number},...
+    (log.bonus))
+
 %% save
 save(fullfile('data',strcat(params.name, '_block',num2str(params.block_number),'.mat')),...
     'log','params');
+

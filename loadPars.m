@@ -31,9 +31,6 @@ params.rect = rect;
 params.yesTexture = Screen('MakeTexture', w, imread(fullfile('textures','yes.png')));
 params.noTexture = Screen('MakeTexture', w, imread(fullfile('textures','no.png')));
 
-params.oneTexture = Screen('MakeTexture', w, imread(fullfile('textures','1.png')));
-params.twoTexture = Screen('MakeTexture', w, imread(fullfile('textures','2.png')));
-
 params.positions = {[params.center(1)-250, params.center(2)-50,...
                             params.center(1)-150, params.center(2)+50],...
              [params.center(1)+150, params.center(2)-50,...
@@ -77,7 +74,7 @@ else %experimental run, because a block_number has been provided
     
     params.block_number = block_number;
 %     calibration = load(fullfile('data',strcat(params.name, '_calibration.mat')));
-    params.vis_face = -1.5; %calibration.vis_face;
+    params.vis_face = -1.9; %calibration.vis_face;
     params.vis_house = -1.3; %calibration.vis_house;
     params.Ntrials = 120;
     params.Nblocks = 4;
