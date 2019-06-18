@@ -67,7 +67,7 @@ elseif strfind(lower(name),'practice')
     params.onsets = cumsum(params.event_duration*ones(params.Ntrials,1));
     params.vis_peak = randi([round(params.display_duration/params.ifi/4),...
             round(3*params.display_duration/params.ifi/4)],params.Ntrials,1);
-    params.visibility = -0.8*ones(8,1);
+    params.visibility = -1.3*ones(8,1);
 
     
 else %experimental run, because a block_number has been provided
