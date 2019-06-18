@@ -1,4 +1,4 @@
-*.asv
-textures/*
 data/*
 PsychometricCurveFitting/*
+.DS_Store
+textures/*
