@@ -1,5 +1,7 @@
 data/*
 preliminaryData/*
-PsychometricCurveFitting/*
+analysis_scripts/figures/PsychometricCurveFitting/*
 .DS_Store
+analysis_scripts/figures/*
+analysis_scripts/savedScripts/*
 textures/*
