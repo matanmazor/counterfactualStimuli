@@ -64,7 +64,7 @@ load gong.mat;
 soundsc(y);
 
 log.bonus = ((log.correct(~isnan(log.confidence))-0.5)'...
-        *log.confidence(~isnan(log.confidence)))/300;
+        *log.confidence(~isnan(log.confidence)))/330;
 numbers = {'first','second','third','fourth'};
 sprintf('the bonus for the %s block is %0.02f',numbers{params.block_number},...
     (log.bonus))
