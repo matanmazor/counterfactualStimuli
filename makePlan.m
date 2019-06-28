@@ -67,6 +67,8 @@ for i_b = 1:Nb/2
     random.visibility(:,i_b) = structured.visibility(perm,i_b);
     
     random.vis_peak(:,i_b) = structured.vis_peak(perm,i_b);
+    
+    plan.perm{i_b} = perm;
 
 end
 

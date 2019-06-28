@@ -19,8 +19,12 @@ block_number = str2double(savestr{2});
 
 %% 2. set preferences and open screen
 
-% change to w = setWindow(1) for debugging mode.
-[w,rect] = setWindow(0); %open psychtoolbox. 
+%set different random seed for each participant(subject #19 onwards)
+if ~isnan(str2double(name(1:3)))
+    rng(str2double(name(1:3)))
+end
+%open psychtoolbox
+[w,rect] = setWindow(0);%setWindow(1) for debugging mode.
 params = loadPars(rect, name, block_number);
         
 %% 3. initialize log
