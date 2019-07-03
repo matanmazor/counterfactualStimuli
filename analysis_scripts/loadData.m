@@ -35,6 +35,9 @@ for i_s = 1:length(subj_list)
             subject_data.RandomRT = [];
             subject_data.RandomDemeanRT = [];
             subject_data.RandomSignal = [];
+            subject_data.RandomEV = [];
+            subject_data.RandomEVres = [];
+            
 
             %structured blocks
             subject_data.StructVisibility = [];
@@ -49,6 +52,8 @@ for i_s = 1:length(subj_list)
             subject_data.StructRT = [];
             subject_data.StructDemeanRT = [];
             subject_data.StructSignal = [];
+            subject_data.StructEV = [];
+            subject_data.StructEVres = [];
 
             %general parameters
             subject_data.vTask = [];
@@ -106,6 +111,9 @@ for i_s = 1:length(subj_list)
                         log.resp(:,1) - nanmean(log.resp(:,1))];
                     subject_data.RandomSignal = [subject_data.RandomSignal;...
                         params.present];
+                    [EV_vec,EVres_vec] = getExpectedVisbility(params.visibility,params.present,log.resp(:,2));
+                    subject_data.RandomEV = [subject_data.RandomEV; EV_vec];
+                    subject_data.RandomEVres = [subject_data.RandomEVres; EVres_vec];
                 else
                     %structured blocks
                     subject_data.StructVisibility = [subject_data.StructVisibility;...
@@ -132,6 +140,9 @@ for i_s = 1:length(subj_list)
                         log.resp(:,1) - nanmean(log.resp(:,1))];
                     subject_data.StructSignal = [subject_data.StructSignal;...
                         params.present];
+                    [EV_vec,EVres_vec] = getExpectedVisbility(params.visibility,params.present,log.resp(:,2));
+                    subject_data.StructEV = [subject_data.StructEV; EV_vec];
+                    subject_data.StructEVres = [subject_data.StructEVres; EVres_vec];
                 end
                 
                 %compute bonus
