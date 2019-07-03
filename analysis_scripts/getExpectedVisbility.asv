@@ -17,8 +17,8 @@ vis_vec(pres==0)= -5;
 
 
 EV_vec = EV_raw_vec-nanmean(EV_raw_vec); %mean center
-[~,~,r] = regress(EV_vec(pres==1),[ones(size(vis_vec(pres==1))), vis_vec(pres==1)]);
-EVres_vec(pres==1) = r;
+b = regress(EV_vec(pres==1),[ones(size(vis_vec(pres==1))), vis_vec(pres==1)]);
+EVres_vec = EV_vec - b(1) - b(2)*vis_vec;
 
 end
 
