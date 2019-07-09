@@ -1,3 +1,7 @@
+data_struct = loadData;
+subj_list = data_struct.keys;
+subj_list = subj_list(1)
+
 [rand_yes_EVCcorr,struct_yes_EVCcorr, rand_no_EVCcorr, struct_no_EVCcorr] = deal(nan(size(subj_list)));
 
 [rand_resp_EVcorr,struct_resp_EVcorr] = deal(nan(size(subj_list)));
@@ -35,7 +39,7 @@ for i_s = 1:numel(subj_list)
             struct_expected_visibility(i_v+1) = st_vis;
         elseif (st_resp == 0 && st_pres == 1) || (st_resp == 0 && st_pres == 0) %miss or correct rejection - carry forward current expected visibility to next trial
             struct_expected_visibility(i_v+1) = st_currentExpVis;
-        else %false alarm - set next expected visibility to a very low value
+        elseif st_resp == 1 && st_pres == 0 %false alarm - set next expected visibility to a very low value
             struct_expected_visibility(i_v+1) = -5;
         end
         
@@ -52,7 +56,7 @@ for i_s = 1:numel(subj_list)
             rand_expected_visibility(i_v+1) = ra_vis;
         elseif (ra_resp == 0 && ra_pres == 1) || (ra_resp == 0 && ra_pres == 0) %miss or correct rejection - carry forward current expected visibility to next trial
             rand_expected_visibility(i_v+1) = ra_currentExpVis;
-        else %false alarm - set next expected visibility to a very low value
+        elseif ra_resp == 1 && ra_pres == 0 %false alarm - set next expected visibility to a very low value
             rand_expected_visibility(i_v+1) = -5;
         end
         
